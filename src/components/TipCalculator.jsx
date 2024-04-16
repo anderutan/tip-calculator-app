@@ -1,15 +1,23 @@
 import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import iconDollar from '../assets/icon-dollar.svg';
+import { useState } from 'react';
 
 export default function TipCalculator() {
-  const { register, control, handleSubmit, setValue } = useForm({
+  const { register, control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       bill: 0,
       tip: 0,
       people: 1,
     },
   });
+
+  const watchTipsValue = watch('tip');
+
+  console.log(watchTipsValue);
+
+  const buttonStyle =
+    'bg-teal-950 py-2 font-semibold rounded text-white hover:bg-teal-400 hover:text-teal-950';
 
   const handleSetValue = (value) => {
     setValue('tip', value);
@@ -52,14 +60,27 @@ export default function TipCalculator() {
             {...register('tip', { required: 'Please pick a tip % below.' })}
           />
           <div className='grid grid-cols-2 py-2 gap-2'>
-            <button className='bg-teal-900 py-2 font-semibold rounded text-white selected:bg-teal-400'>
+            <button className={buttonStyle} onClick={() => handleSetValue(3)}>
               3%
             </button>
-            <button>5%</button>
-            <button>7%</button>
-            <button>10%</button>
-            <button>12%</button>
-            <input type='number' placeholder='Custom' />
+            <button className={buttonStyle} onClick={() => handleSetValue(5)}>
+              5%
+            </button>
+            <button className={buttonStyle} onClick={() => handleSetValue(7)}>
+              7%
+            </button>
+            <button className={buttonStyle} onClick={() => handleSetValue(10)}>
+              10%
+            </button>
+            <button className={buttonStyle} onClick={() => handleSetValue(12)}>
+              12%
+            </button>
+            <input
+              type='number'
+              placeholder='Custom'
+              className='text-right bg-slate-200 rounded pr-2 font-semibold text-emerald-900'
+              onChange={(e) => handleSetValue(e.target.value)}
+            />
           </div>
         </div>
       </form>
